@@ -154,7 +154,7 @@ Skada:AddLoadableModule("Threat", nil, function(Skada, L)
                     local role = 'NONE'
 					d.class = class
                     d.role = role
-					d.id = name
+					d.id = UnitGUID(name)
 					d.threat = threatvalue
 					d.isTanking = isTanking
 					if threatvalue < 0 then
@@ -178,7 +178,7 @@ Skada:AddLoadableModule("Threat", nil, function(Skada, L)
                     local role = 'NONE'
 					d.class = class
                     d.role = role
-					d.id = name
+					d.id = UnitGUID(name)
 					d.value = threatpct
 					d.isTanking = isTanking
 					d.threat = threatvalue
