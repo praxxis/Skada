@@ -9,7 +9,7 @@ Skada:AddLoadableModule("Friendly Fire", "Shows damage done on players by friend
         -- Get the player.
         local player = Skada:get_player(set, dmg.playerid, dmg.playername)
         if player then
-            -- 
+            --
             -- Also add to set total ff damage done.
             set.ffdamagedone = set.ffdamagedone + dmg.amount
 
@@ -40,7 +40,7 @@ Skada:AddLoadableModule("Friendly Fire", "Shows damage done on players by friend
 
     local function SpellDamage(timestamp, eventtype, srcGUID, srcName, srcFlags, dstGUID, dstName, dstFlags, ...)
         if srcGUID == dstGUID then return end
-            
+
         local spellId, spellName, spellSchool, amount, overkill, school, resist, block, absorb = ...
         --if srcName then Skada:Print("Friendly Fire : ", spellName, spellId, "(", srcName, ">", dstName, ")") end
 
@@ -58,7 +58,7 @@ Skada:AddLoadableModule("Friendly Fire", "Shows damage done on players by friend
 
     local function SwingDamage(timestamp, eventtype, srcGUID, srcName, srcFlags, dstGUID, dstName, dstFlags, ...)
         if srcGUID == dstGUID then return end
-            
+
         -- White melee.
         local amount, overkill, school, resist, block, absorb = ...
 
@@ -174,14 +174,14 @@ Skada:AddLoadableModule("Friendly Fire", "Shows damage done on players by friend
     function mod:OnEnable()
         spellmod.metadata 		= {}
         playermod.metadata 		= {}
-        mod.metadata 			= {click1 = spellmod, click2 = playermod, showspots = true, icon = "Interface\\Icons\\Inv_throwingknife_01"}
+        mod.metadata 			= {click1 = spellmod, click2 = playermod, showspots = true, icon = "Interface\\Addons\\Skada\\icons\\Inv_throwingknife_01"}
 
         Skada:RegisterForCL(SpellDamage, 'SPELL_DAMAGE', {dst_is_interesting_nopets = true, src_is_interesting_nopets = true})
         Skada:RegisterForCL(SpellDamage, 'SPELL_PERIODIC_DAMAGE', {dst_is_interesting_nopets = true, src_is_interesting_nopets = true})
         Skada:RegisterForCL(SpellDamage, 'SPELL_BUILDING_DAMAGE', {dst_is_interesting_nopets = true, src_is_interesting_nopets = true})
         Skada:RegisterForCL(SpellDamage, 'RANGE_DAMAGE', {dst_is_interesting_nopets = true, src_is_interesting_nopets = true})
         Skada:RegisterForCL(SwingDamage, 'SWING_DAMAGE', {dst_is_interesting_nopets = true, src_is_interesting_nopets = true})
-            
+
         Skada:AddMode(self)
     end
 

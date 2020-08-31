@@ -14,7 +14,7 @@ Skada:AddLoadableModule("Deaths", nil, function(Skada, L)
         if log then
             local pos = log.pos or 1
 
-            local entry = log[pos] 
+            local entry = log[pos]
             if not entry then
               entry = {}
               log[pos] = entry
@@ -72,7 +72,7 @@ Skada:AddLoadableModule("Deaths", nil, function(Skada, L)
 		if player then
 			-- Add a death along with it's timestamp.
 			player.deaths = player.deaths or {}
-			
+
 			table.insert(player.deaths, 1, {["ts"] = deathts, ["log"] = deathlog, ["maxhp"] = maxhp})
 
 			-- Also add to set deaths.
@@ -108,12 +108,12 @@ Skada:AddLoadableModule("Deaths", nil, function(Skada, L)
 
 	local function UnitDied(timestamp, eventtype, srcGUID, srcName, srcFlags, dstGUID, dstName, dstFlags, ...)
 		local SORtime = SORtime[dstGUID] or 0
-		if timestamp > SORtime + 1 and 
+		if timestamp > SORtime + 1 and
                    timestamp < SORtime + 20 then -- Spirit of Redemption lasts 15 sec, allow some padding for latency
 			log_SORdeath(Skada.total,   dstGUID, dstName, timestamp)
 		elseif not UnitIsFeignDeath(dstName) then	-- Those pesky hunters
 			local deathts, deathlog, maxhp = log_death(Skada.total, dstGUID, dstName, timestamp)
-			if deathlog then -- save the finalized death log to both sets. 
+			if deathlog then -- save the finalized death log to both sets.
 			        -- This log is deliberately aliased, both to save memory and capture post-death updates
 				save_death(Skada.total,   dstGUID, dstName, deathts, deathlog, maxhp)
 				save_death(Skada.current, dstGUID, dstName, deathts, deathlog, maxhp)
@@ -201,7 +201,7 @@ Skada:AddLoadableModule("Deaths", nil, function(Skada, L)
 		log_deathlog(Skada.total, dstGUID, dstName, (srcName_modified or srcName), spellId, nil, samount, absorbed, timestamp)
 	end
 
-	local function cmp_order_dataset(a,b) 
+	local function cmp_order_dataset(a,b)
 		return (a and a.id and a.order or 0) > (b and b.id and b.order or 0)
 	end
 
@@ -254,12 +254,12 @@ Skada:AddLoadableModule("Deaths", nil, function(Skada, L)
 						end
 					end
 				end
-				
+
 				d.id = player.id
 				d.value = #player.deaths
 				if spellid then
 					d.label = player.name .. ": " .. (spellname or GetSpellInfo(spellid))
-				else 
+				else
 					d.label = player.name
 				end
 				d.class = player.class
@@ -284,8 +284,8 @@ Skada:AddLoadableModule("Deaths", nil, function(Skada, L)
 	local green = {r = 0, g = 255, b = 0, a = 1}
 	local red = {r = 255, g = 0, b = 0, a = 1}
 
-	local function cmp_ts(a,b) 
-		return a and b and a.ts > b.ts 
+	local function cmp_ts(a,b)
+		return a and b and a.ts > b.ts
 	end
 
 	-- Death log.
@@ -320,7 +320,7 @@ Skada:AddLoadableModule("Deaths", nil, function(Skada, L)
 						if spellid == death_spell then
 							rspellname = spellname -- nicely formatted death message
 						else
-							rspellname = GetSpellLink(spellid) or spellname	
+							rspellname = GetSpellLink(spellid) or spellname
 						end
 						local label
 						if log.ts >= death.ts then
@@ -328,7 +328,7 @@ Skada:AddLoadableModule("Deaths", nil, function(Skada, L)
 						else
 							label = ("%2.2f"):format(diff) .. ": "
 						end
-						if log.srcname then 
+						if log.srcname then
 							label = label..log.srcname..L["'s "]
 						end
 						d.label =       label..spellname
@@ -383,7 +383,7 @@ Skada:AddLoadableModule("Deaths", nil, function(Skada, L)
 	end
 
 	function mod:OnEnable()
-		mod.metadata 		= {ordersort = true, click1 = deathlog, columns = {Deaths = true, Timestamp = true}, icon = "Interface\\Icons\\Ability_warlock_cremation"}
+		mod.metadata 		= {ordersort = true, click1 = deathlog, columns = {Deaths = true, Timestamp = true}, icon = "Interface\\Addons\\Skada\\icons\\Ability_warlock_cremation"}
 		deathlog.metadata 	= {ordersort = true, columns = {Change = true, Health = false, Percent = true, Absorb = true}}
 
 		Skada:RegisterForCL(UnitDied, 'UNIT_DIED', {dst_is_interesting_nopets = true})

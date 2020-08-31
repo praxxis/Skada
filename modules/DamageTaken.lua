@@ -138,7 +138,7 @@ Skada:AddLoadableModule("DamageTaken", nil, function(Skada, L)
             if spell.school then
                 d.spellschool = spell.school
             end
-                
+
 			d.spellid = spell.id
 
 			if spell.damage > max then
@@ -266,7 +266,7 @@ Skada:AddLoadableModule("DamageTaken", nil, function(Skada, L)
                         tooltip:AddLine(GetSchoolString(spell.school), c.r, c.g, c.b)
                     end
                 end
-                    
+
 				tooltip:AddDoubleLine(L["Hit"]..":", spell.totalhits, 255,255,255,255,255,255)
 				if spell.critical > 0 then
 					tooltip:AddDoubleLine(L["Critical"]..":", spell.critical, 255,255,255,255,255,255)
@@ -298,8 +298,8 @@ Skada:AddLoadableModule("DamageTaken", nil, function(Skada, L)
 
 	function mod:OnEnable()
 		playermod.metadata 		= {tooltip = playerspell_tooltip}
-		mod.metadata 			= {click1 = playermod, showspots = true, columns = {Damage = true, DTPS = true, Percent = true}, icon = "Interface\\Icons\\Inv_shield_06"}
-		spelloverview.metadata	= {click1 = spellplayers, showspots = true, icon = "Interface\\Icons\\Inv_shield_07"}
+		mod.metadata 			= {click1 = playermod, showspots = true, columns = {Damage = true, DTPS = true, Percent = true}, icon = "Interface\\Addons\\Skada\\icons\\Inv_shield_06"}
+		spelloverview.metadata	= {click1 = spellplayers, showspots = true, icon = "Interface\\Addons\\Skada\\icons\\Inv_shield_07"}
 
 		Skada:RegisterForCL(SpellDamage, 'SPELL_DAMAGE', {dst_is_interesting_nopets = true})
 		Skada:RegisterForCL(SpellDamage, 'SPELL_PERIODIC_DAMAGE', {dst_is_interesting_nopets = true})

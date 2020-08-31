@@ -112,7 +112,7 @@ Skada:AddLoadableModule("Threat", nil, function(Skada, L)
 	end
 
 	function mod:OnEnable()
-		mod.metadata = {showspots = 1, wipestale = 1, columns = {Threat = true, TPS = false, Percent = true}, icon = "Interface\\Icons\\Ability_warrior_challange"}
+		mod.metadata = {showspots = 1, wipestale = 1, columns = {Threat = true, TPS = false, Percent = true}, icon = "Interface\\Addons\\Skada\\icons\\Ability_warrior_challange"}
 
 		-- Add our feed.
 		Skada:AddFeed(L["Threat: Personal Threat"], function()

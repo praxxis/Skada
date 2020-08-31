@@ -3,7 +3,7 @@ Skada:AddLoadableModule("Overhealing", nil, function(Skada, L)
 
 	local mod = Skada:NewModule(L["Overhealing"])
 	local spellsmod = Skada:NewModule(L["Overhealing spells"])
-    mod.metadata = {showspots = true, click1 = spellsmod, columns = {Overheal = true, Percent = true}, icon = "Interface\\Icons\\Ability_paladin_infusionoflight"}
+    mod.metadata = {showspots = true, click1 = spellsmod, columns = {Overheal = true, Percent = true}, icon = "Interface\\Addons\\Skada\\icons\\Ability_paladin_infusionoflight"}
     spellsmod.metadata	= {columns = {Healing = true, Percent = true}}
 
 	function mod:OnEnable()
@@ -62,7 +62,7 @@ Skada:AddLoadableModule("Overhealing", nil, function(Skada, L)
 
 		win.metadata.maxvalue = max
 	end
-        
+
 	function spellsmod:Enter(win, id, label)
 		spellsmod.playerid = id
 		spellsmod.title = label..L["'s Healing"]
@@ -102,7 +102,7 @@ Skada:AddLoadableModule("Overhealing", nil, function(Skada, L)
 
 		win.metadata.hasicon = true
 		win.metadata.maxvalue = max
-	end        
-        
+	end
+
 end)
 

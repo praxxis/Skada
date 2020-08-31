@@ -451,10 +451,10 @@ Skada:AddLoadableModule("Healing", nil, function(Skada, L)
 	end
 
 	function mod:OnEnable()
-		mod.metadata		= {showspots = true, click1 = spellsmod, click2 = healedmod, columns = {Healing = true, HPS = true, Percent = true}, icon = "Interface\\Icons\\Ability_priest_flashoflight"}
+		mod.metadata		= {showspots = true, click1 = spellsmod, click2 = healedmod, columns = {Healing = true, HPS = true, Percent = true}, icon = "Interface\\Addons\\Skada\\icons\\Ability_priest_flashoflight"}
 		spellsmod.metadata	= {tooltip = spell_tooltip, columns = {Healing = true, Percent = true}}
 		healedmod.metadata 	= {showspots = true, columns = {Healing = true, Percent = true}}
-		healingtaken.metadata = {showspots = true, columns = {Healing = true, HPS = true, Percent = true}, icon = "Interface\\Icons\\Ability_priest_cascade"}
+		healingtaken.metadata = {showspots = true, columns = {Healing = true, HPS = true, Percent = true}, icon = "Interface\\Addons\\Skada\\icons\\Ability_priest_cascade"}
 
 		-- handlers for Healing spells
 		Skada:RegisterForCL(SpellHeal, 'SPELL_HEAL', {src_is_interesting = true})

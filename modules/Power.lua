@@ -182,12 +182,12 @@ Skada:AddLoadableModule("Power", nil, function(Skada, L)
 		win.metadata.maxvalue = max
 	end
 
-    local manamod = basemod:Create(MANA, L["Mana gained"], L["Mana gain spell list"], "Interface\\Icons\\Inv_misc_ancient_mana")
-    local energymod = basemod:Create(ENERGY, L["Energy gained"], L["Energy gain sources"], "Interface\\Icons\\Ability_rogue_sprint")
-    local runicmod = basemod:Create(RUNIC, L["Runic power gained"], L["Runic power gain sources"], "Interface\\Icons\\Ability_deathknight_runicimpowerment")
-    local ragemod = basemod:Create(RAGE, L["Rage gained"], L["Rage gain sources"], "Interface\\Icons\\Ability_warrior_rampage")
-    local holymod = basemod:Create(HOLY, L["Holy power gained"], L["Holy power gain sources"], "Interface\\Icons\\Ability_paladin_beaconoflight")
-    local focusmod = basemod:Create(FOCUS, L["Focus gained"], L["Focus gain sources"], "Interface\\Icons\\Ability_hunter_focusedaim")
+    local manamod = basemod:Create(MANA, L["Mana gained"], L["Mana gain spell list"], "Interface\\Addons\\Skada\\icons\\Inv_misc_ancient_mana")
+    local energymod = basemod:Create(ENERGY, L["Energy gained"], L["Energy gain sources"], "Interface\\Addons\\Skada\\icons\\Ability_rogue_sprint")
+    local runicmod = basemod:Create(RUNIC, L["Runic power gained"], L["Runic power gain sources"], "Interface\\Addons\\Skada\\icons\\Ability_deathknight_runicimpowerment")
+    local ragemod = basemod:Create(RAGE, L["Rage gained"], L["Rage gain sources"], "Interface\\Addons\\Skada\\icons\\Ability_warrior_rampage")
+    local holymod = basemod:Create(HOLY, L["Holy power gained"], L["Holy power gain sources"], "Interface\\Addons\\Skada\\icons\\Ability_paladin_beaconoflight")
+    local focusmod = basemod:Create(FOCUS, L["Focus gained"], L["Focus gain sources"], "Interface\\Addons\\Skada\\icons\\Ability_hunter_focusedaim")
 
 	function mod:OnEnable()
 		Skada:RegisterForCL(SpellEnergize, 'SPELL_ENERGIZE', {src_is_interesting = true})

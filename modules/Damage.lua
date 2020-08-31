@@ -6,10 +6,10 @@ Skada:AddLoadableModule("Damage", nil, function(Skada, L)
 	local playermod = Skada:NewModule(L["Damage spell list"])
 	local spellmod = Skada:NewModule(L["Damage spell details"])
 	local damagedmod = Skada:NewModule(L["Damaged mobs"])
-        
+
     local pairs = pairs
     local ipairs = ipairs
-        
+
 	local function getDPS(set, player)
 		local totaltime = Skada:PlayerActiveTime(set, player)
 
@@ -177,12 +177,12 @@ Skada:AddLoadableModule("Damage", nil, function(Skada, L)
         if type(chk) == "number" then
             -- Spell event
             spellId, spellName, spellSchool, aGUID, aName, aFlags, aRaidFlags, aspellId, aspellName, aspellSchool, aAmount = ...
-            
+
             -- Exclude Spirit Shift damage
             if aspellId == 184553 then
                 return
             end
-                
+
             if aAmount then
                 SpellDamage(timestamp, eventtype, srcGUID, srcName, srcFlags, dstGUID, dstName, dstFlags, spellId, spellName, spellSchool, aAmount)
             end
@@ -194,13 +194,13 @@ Skada:AddLoadableModule("Damage", nil, function(Skada, L)
             if aspellId == 184553 then
                 return
             end
-                
+
             if aAmount then
-                SwingDamage(timestamp, eventtype, srcGUID, srcName, srcFlags, dstGUID, dstName, dstFlags, aAmount)   
+                SwingDamage(timestamp, eventtype, srcGUID, srcName, srcFlags, dstGUID, dstName, dstFlags, aAmount)
             end
         end
     end
-        
+
 	local function SwingMissed(timestamp, eventtype, srcGUID, srcName, srcFlags, dstGUID, dstName, dstFlags, missed)
 		if srcGUID ~= dstGUID then
 			-- Melee misses
@@ -372,7 +372,7 @@ Skada:AddLoadableModule("Damage", nil, function(Skada, L)
                     if spell.school then
                         d.spellschool = spell.school
                     end
-                        
+
 					d.valuetext = Skada:FormatValueText(
 						Skada:FormatNumber(spell.damage), self.metadata.columns.Damage,
 						string.format("%02.1f%%", spell.damage / player.damage * 100), self.metadata.columns.Percent
@@ -510,7 +510,7 @@ Skada:AddLoadableModule("Damage", nil, function(Skada, L)
 		end
 
 	end
-        
+
 	-- Tooltip for a specific player spell.
 	local function spellmod_tooltip(win, id, label, tooltip)
 		local set = win:get_selected_set()
@@ -534,7 +534,7 @@ Skada:AddLoadableModule("Damage", nil, function(Skada, L)
             end
 		end
 	end
-        
+
 
 	-- DPS-only view
 	function dpsmod:GetSetSummary(set)
@@ -569,9 +569,9 @@ Skada:AddLoadableModule("Damage", nil, function(Skada, L)
 	end
 
 	function mod:OnEnable()
-		dpsmod.metadata = 		{showspots = true, tooltip = dps_tooltip, click1 = playermod, click2 = damagedmod, icon = "Interface\\Icons\\Inv_throwingaxe_02"}
+		dpsmod.metadata = 		{showspots = true, tooltip = dps_tooltip, click1 = playermod, click2 = damagedmod, icon = "Interface\\Addons\\Skada\\icons\\Inv_throwingaxe_02"}
 		playermod.metadata = 	{tooltip = player_tooltip, click1 = spellmod, columns = {Damage = true, Percent = true}}
-		mod.metadata = 			{post_tooltip = damage_tooltip, showspots = true, click1 = playermod, click2 = damagedmod, columns = {Damage = true, DPS = true, Percent = true}, icon = "Interface\\Icons\\Inv_throwingaxe_01"}
+		mod.metadata = 			{post_tooltip = damage_tooltip, showspots = true, click1 = playermod, click2 = damagedmod, columns = {Damage = true, DPS = true, Percent = true}, icon = "Interface\\Addons\\Skada\\icons\\Inv_throwingaxe_01"}
 		damagedmod.metadata = 	{columns = {Damage = true, Percent = true}}
 		spellmod.metadata =		{tooltip = spellmod_tooltip, columns = {Damage = true, Percent = true}}
 

@@ -7,7 +7,7 @@ local icon = LibStub("LibDBIcon-1.0", true)
 local media = LibStub("LibSharedMedia-3.0")
 local boss = LibStub("LibBossIDs-1.0")
 local lds = LibStub:GetLibrary("LibDualSpec-1.0", 1)
-local dataobj = ldb:NewDataObject("Skada", {label = "Skada", type = "data source", icon = "Interface\\Icons\\Spell_Lightning_LightningBolt01", text = "n/a"})
+local dataobj = ldb:NewDataObject("Skada", {label = "Skada", type = "data source", icon = "Interface\\Addons\\Skada\\icons\\Spell_Lightning_LightningBolt01", text = "n/a"})
 local popup, cleuFrame
 local AceConfigDialog = LibStub('AceConfigDialog-3.0')
 
@@ -1972,8 +1972,8 @@ function dataobj:OnClick(button)
 end
 
 local totalbarcolor = {r = 0.2, g = 0.2, b = 0.5, a = 1}
-local bossicon = "Interface\\Icons\\Achievment_boss_ultraxion"
-local nonbossicon = "Interface\\Icons\\icon_petfamily_critter"
+local bossicon = "Interface\\Addons\\Skada\\icons\\Achievment_boss_ultraxion"
+local nonbossicon = "Interface\\Addons\\Skada\\icons\\icon_petfamily_critter"
 
 function Skada:UpdateDisplay(force)
 	-- Force an update by setting our "changed" flag to true.
@@ -2870,7 +2870,7 @@ do
 			self.db.profile.sets = nil
 		end
 
-        self:SetNotifyIcon("Interface\\Icons\\Spell_Lightning_LightningBolt01")
+        self:SetNotifyIcon("Interface\\Addons\\Skada\\icons\\Spell_Lightning_LightningBolt01")
         self:SetNotifyStorage(self.db.profile.versions)
         self:NotifyOnce(self.versions)
 	end

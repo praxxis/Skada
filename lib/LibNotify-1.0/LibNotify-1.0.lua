@@ -59,7 +59,7 @@ if locale == "esES" then
 end
 
 lib.data = {
-    defaulticon = "Interface\\Icons\\Inv_misc_book_02",
+    defaulticon = "Interface\\Addons\\Skada\\icons\\Inv_misc_book_02",
     notice = {
         title = {
             color = {1, 1, 1, 1},
@@ -74,15 +74,15 @@ lib.data = {
         backdrop = {
             bgFile = "Interface\\DialogFrame\\UI-DialogBox-Background-Dark",
             edgeFile = nil,
-            tile = true, 
-            tileSize = 16, 
+            tile = true,
+            tileSize = 16,
             edgeSize = 16,
             insets = {left = 1, right = 1, top = 1, bottom = 1}
         },
         backdropcolor = {0, 0, 0, 0.5},
         location = {
             BOTTOM = 500,
-            RIGHT = 500, 
+            RIGHT = 500,
         },
         size = {
             width = 350,
@@ -103,8 +103,8 @@ lib.data = {
         backdrop = {
             bgFile = "Interface\\DialogFrame\\UI-DialogBox-Background-Dark",
             edgeFile = "Interface\\DialogFrame\\UI-DialogBox-Border",
-            tile = true, 
-            tileSize = 16, 
+            tile = true,
+            tileSize = 16,
             edgeSize = 16,
             insets = {left = 2, right = 2, top = 2, bottom = 2}
         },
@@ -140,11 +140,11 @@ end
 
 local function popNotifications()
     local note = tremove(queue, 1)
-    
+
     if not note then
         return
     end
-    
+
     if not frame then
         local style = lib.data.notice
         frame = CreateFrame("Frame", nil, UIParent)
@@ -154,7 +154,7 @@ local function popNotifications()
         frame:SetPoint("BOTTOMRIGHT", -25, 25)
         frame:SetFrameStrata("DIALOG")
         frame:Hide()
-        
+
         local anim = frame:CreateAnimationGroup()
         anim:SetToFinalAlpha(true)
         frame.fader = anim:CreateAnimation("Alpha")
@@ -164,7 +164,7 @@ local function popNotifications()
                     popNotifications()
                 end
             end)
-        
+
         frame.fadeIn = function()
             anim:Pause()
             frame.fader:SetFromAlpha(0.0)
@@ -181,7 +181,7 @@ local function popNotifications()
             frame.fader:SetDuration(0.5)
             anim:Play()
         end
-            
+
         local titlestring = frame:CreateFontString(nil, "ARTWORK", "ChatFontNormal")
         titlestring:SetTextColor(unpack(style.title.color))
         titlestring:SetFont(style.title.font, style.title.size)
@@ -192,7 +192,7 @@ local function popNotifications()
         titlestring:SetPoint("TOP", 0, 2)
         titlestring:SetWidth(style.size.width - 50)
         titlestring:SetHeight(40)
-        
+
 		local icon = frame:CreateTexture(nil, "OVERLAY")
 		icon:SetPoint("LEFT", 4, 0)
 		icon:SetPoint("CENTER", 0, 0)
@@ -218,9 +218,9 @@ local function popNotifications()
             --f:Hide()
             frame:fadeOut()
         end)
-        
+
         frame:EnableMouse(true)
-        frame:SetScript("OnMouseDown", function(f, btn) 
+        frame:SetScript("OnMouseDown", function(f, btn)
             if btn == "LeftButton" then
                 if clickfunc then
                     clickfunc()
@@ -245,45 +245,45 @@ local function popNotifications()
                             messageframe:Hide()
                         end
                     end)
-                    
-                    --scrollframe 
-                    local scrollframe = CreateFrame("ScrollFrame", nil, messageframe) 
+
+                    --scrollframe
+                    local scrollframe = CreateFrame("ScrollFrame", nil, messageframe)
                     scrollframe:SetPoint("TOPLEFT", 20, -20)
-                    scrollframe:SetPoint("BOTTOMRIGHT", -30, 20) 
-                    local texture = scrollframe:CreateTexture() 
-                    texture:SetAllPoints() 
-                    texture:SetTexture(.5,.5,.5,1) 
-                    frame.scrollframe = scrollframe 
+                    scrollframe:SetPoint("BOTTOMRIGHT", -30, 20)
+                    local texture = scrollframe:CreateTexture()
+                    texture:SetAllPoints()
+                    texture:SetTexture(.5,.5,.5,1)
+                    frame.scrollframe = scrollframe
 
-                    --scrollbar 
-                    scrollbar = CreateFrame("Slider", nil, scrollframe, "UIPanelScrollBarTemplate") 
-                    scrollbar:SetPoint("TOPLEFT", scrollframe, "TOPRIGHT", 4, -16) 
-                    scrollbar:SetPoint("BOTTOMLEFT", scrollframe, "BOTTOMRIGHT", 4, 16) 
-                    scrollbar:SetMinMaxValues(1, 200) 
-                    scrollbar:SetValueStep(1) 
+                    --scrollbar
+                    scrollbar = CreateFrame("Slider", nil, scrollframe, "UIPanelScrollBarTemplate")
+                    scrollbar:SetPoint("TOPLEFT", scrollframe, "TOPRIGHT", 4, -16)
+                    scrollbar:SetPoint("BOTTOMLEFT", scrollframe, "BOTTOMRIGHT", 4, 16)
+                    scrollbar:SetMinMaxValues(1, 200)
+                    scrollbar:SetValueStep(1)
                     scrollbar.scrollStep = 1
-                    scrollbar:SetValue(0) 
-                    scrollbar:SetWidth(16) 
-                    scrollbar:SetScript("OnValueChanged", 
-                    function (self, value) 
-                        self:GetParent():SetVerticalScroll(value) 
-                    end) 
-                    local scrollbg = scrollbar:CreateTexture(nil, "BACKGROUND") 
-                    scrollbg:SetAllPoints(scrollbar) 
-                    scrollbg:SetTexture(0, 0, 0, 0.4) 
-                    frame.scrollbar = scrollbar 
+                    scrollbar:SetValue(0)
+                    scrollbar:SetWidth(16)
+                    scrollbar:SetScript("OnValueChanged",
+                    function (self, value)
+                        self:GetParent():SetVerticalScroll(value)
+                    end)
+                    local scrollbg = scrollbar:CreateTexture(nil, "BACKGROUND")
+                    scrollbg:SetAllPoints(scrollbar)
+                    scrollbg:SetTexture(0, 0, 0, 0.4)
+                    frame.scrollbar = scrollbar
 
-                    --content frame 
-                    content = CreateFrame("SimpleHTML", nil, scrollframe) 
+                    --content frame
+                    content = CreateFrame("SimpleHTML", nil, scrollframe)
                     content:SetSize(style.size.width - 50, style.size.height - 20)
                     content:SetFont(style.message.font, style.message.size);
                     content:SetFont("h1", style.title.font, style.title.size)
                     content:SetFont("h2", style.title.font, style.title.size-4)
                     content:SetFont("h3", style.title.font, style.title.size-8)
-                    scrollframe.content = content 
+                    scrollframe.content = content
 
                     scrollframe:SetScrollChild(content)
-                    
+
                     close = CreateFrame("Button", nil, messageframe)
                     close:SetNormalTexture("Interface\\Buttons\\UI-Panel-MinimizeButton-Up")
                     close:SetHighlightTexture("Interface\\Buttons\\UI-Panel-MinimizeButton-Highlight", "ADD")
@@ -291,7 +291,7 @@ local function popNotifications()
                     close:SetPoint("RIGHT", messageframe, "RIGHT", -15, -5)
                     close:SetPoint("TOP", messageframe, "TOP", -5, -5)
                     close:SetScript("OnClick", function(f) f:GetParent():Hide() end)
-                        
+
                 end
                 content:SetText(html)
                 messageframe:SetPropagateKeyboardInput(true)
@@ -302,12 +302,12 @@ local function popNotifications()
                 frame:fadeOut()
             end
         end)
-        
+
         frame.titlestring = titlestring
         frame.messagestring = messagestring
         frame.icon = icon
     end
-    
+
     frame.titlestring:SetText(note[1].title)
 
     html = nil
@@ -317,18 +317,18 @@ local function popNotifications()
     elseif type(note[1].message) == "function" then
         clickfunc = note[1].message
     end
-    
+
     -- If title is truncated, and we don't have a message/func already, show full title as message.
     if not html and not clickfunc and frame.titlestring:IsTruncated() then
         html = note[1].title
     end
-    
+
     if html then
         frame.messagestring:SetText(leftclick .. ' ' .. rightclick)
     else
         frame.messagestring:SetText(rightclick)
     end
-        
+
     frame.icon:SetTexture(note[1].icon or lib.data.defaulticon)
     frame.icon:SetSize(lib.data.notice.size.height-8, lib.data.notice.size.height-8)
     --frame:Show()

@@ -12,8 +12,8 @@ Skada:AddLoadableModule("TotalHealing", nil, function(Skada, L)
             local totaltime = Skada:PlayerActiveTime(set, player)
             return getRawHeals(player) / math.max(1,totaltime)
     end
-        
-        
+
+
 	-- Called by Skada when a new player is added to a set.
 	function mod:AddPlayerAttributes(player)
 	end
@@ -66,7 +66,7 @@ Skada:AddLoadableModule("TotalHealing", nil, function(Skada, L)
                                         Skada:FormatNumber(player.healing + player.overhealing), self.metadata.columns.Total,
                                         percentformatted, self.metadata.columns.Percent
 					)
-                    
+
                 d.color = green
 				d.backgroundcolor = red
 				d.backgroundwidth = mypercent
@@ -79,7 +79,7 @@ Skada:AddLoadableModule("TotalHealing", nil, function(Skada, L)
 
 		win.metadata.maxvalue = maxvalue
 	end
-        
+
         local function thspell_tooltip(win, id, label, tooltip)
                 local player = Skada:find_player(win:get_selected_set(), thspellsmod.playerid)
                 if player then
@@ -141,10 +141,10 @@ Skada:AddLoadableModule("TotalHealing", nil, function(Skada, L)
 
 		win.metadata.hasicon = true
 		win.metadata.maxvalue = max
-	end        
+	end
 
 	function mod:OnEnable()
-		mod.metadata = {click1 = thspellsmod, showspots = true, columns = {Healing = true, Total = true, Percent = false}, icon = "Interface\\Icons\\Ability_priest_angelicbulwark"}
+		mod.metadata = {click1 = thspellsmod, showspots = true, columns = {Healing = true, Total = true, Percent = false}, icon = "Interface\\Addons\\Skada\\icons\\Ability_priest_angelicbulwark"}
 		thspellsmod.metadata = {tooltip = thspell_tooltip, columns = {Healing = true, Percent = true}}
 
 		Skada:AddMode(self, L["Healing"])
