@@ -21,6 +21,7 @@ Skada.windowdefaults = {
 
     spellschoolcolors=true,
 	classcolorbars = true,
+	classcolorbarsalpha = 1,
 	classcolortext = false,
 	classicons = true,
 	roleicons = false,
@@ -32,16 +33,15 @@ Skada.windowdefaults = {
 	background = {
         height=200,
         texture="Solid",
-        bordercolor = {r=0,g=0,b=0,a=1}, 
-        bordertexture="Blizzard Party", 
+        bordercolor = {r=0,g=0,b=0,a=1},
+        bordertexture="Blizzard Party",
         borderthickness=1,
-        color = {r=0,g=0,b=0,a=0.4}, 
-        tile = false, 
-        tilesize = 0, 
+        color = {r=0,g=0,b=0,a=0.4},
+        tile = false,
+        tilesize = 0,
     },
-    
+
     strata = "LOW",
-    scale = 1,
 
 	reversegrowth=false,
 	modeincombat="",
@@ -60,7 +60,7 @@ Skada.windowdefaults = {
 	scale = 1,
     version = 1,
     smoothing = false,
-    
+
     -- Inline exclusive
     isonnewline = false,
     isusingclasscolors = true,
@@ -70,7 +70,7 @@ Skada.windowdefaults = {
     isusingelvuiskin = true,
     issolidbackdrop = false,
     fixedbarwidth = false,
-    
+
     -- Broker exclusive
     textcolor = {r = 0.9, g = 0.9, b = 0.9},
     useframe = true
@@ -111,7 +111,7 @@ Skada.defaults = {
 		report = {mode = "Damage", set = "current", channel = "Say", chantype = "preset", number = 10},
 		modulesBlocked = {
 		},
-        
+
         versions = {},
 
 		windows = {windefaultscopy}
@@ -393,7 +393,7 @@ Skada.options = {
 										Skada:ApplySettings()
 									end,
 					},
-                
+
 					sortmodesbyusage = {
 							type="toggle",
 							name=L["Sort modes by usage"],
@@ -418,7 +418,7 @@ Skada.options = {
 										Skada:ApplySettings()
 									end,
 					},
-                
+
 					tentativecombatstart = {
 							type="toggle",
 							name=L["Aggressive combat detection"],
@@ -427,7 +427,7 @@ Skada.options = {
 							get=function() return Skada.db.profile.tentativecombatstart end,
 							set=function() Skada.db.profile.tentativecombatstart = not Skada.db.profile.tentativecombatstart end,
 					},
-                
+
 					autostop = {
 							type="toggle",
 							name=L["Autostop"],
@@ -436,14 +436,14 @@ Skada.options = {
 							get=function() return Skada.db.profile.autostop end,
 							set=function() Skada.db.profile.autostop = not Skada.db.profile.autostop end,
 					},
-                
+
 					showself = {
 							type="toggle",
 							name=L["Always show self"],
 							desc=L["Keeps the player shown last even if there is not enough space."],
 							order=11,
 							get=function() return Skada.db.profile.showself end,
-							set=function() 
+							set=function()
                                 Skada.db.profile.showself = not Skada.db.profile.showself
                                 Skada:ApplySettings()
                             end,
@@ -458,7 +458,7 @@ Skada.options = {
 						set=function(self, opt) Skada.db.profile.numberformat = opt end,
 						order=13,
 					},
-                
+
                 datafeed = {
 						type="select",
 						name=L["Data feed"],
@@ -508,7 +508,7 @@ Skada.options = {
 						order=17,
 						width="double",
 					},
-                
+
                     updatefrequency = {
 						type="range",
 						name=L["Update frequency"],
@@ -521,7 +521,7 @@ Skada.options = {
 						order=18,
 						width="double",
                     }
-                
+
 				}
 			},
 			columns = {

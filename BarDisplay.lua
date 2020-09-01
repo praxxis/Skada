@@ -58,7 +58,7 @@ function mod:Create(window)
 	window.bargroup:EnableMouse(true)
 	window.bargroup:SetScript("OnMouseDown", function(win, button) if IsShiftKeyDown() then Skada:OpenMenu(window) elseif button == "RightButton" then window:RightClick() end end)
 	window.bargroup.button:SetScript("OnClick", function(win, button) if IsShiftKeyDown() then Skada:OpenMenu(window) elseif button == "RightButton" then window:RightClick() end end)
-    
+
 	window.bargroup.button:SetScript("OnEnter", function(win, button)
         window.bargroup:SetButtonsOpacity(1.0)
     end)
@@ -67,7 +67,7 @@ function mod:Create(window)
             window.bargroup:SetButtonsOpacity(0.25)
         end
     end)
-    
+
 	window.bargroup:HideIcon()
 
     window.bargroup.button:GetFontString():SetWordWrap(false);
@@ -89,7 +89,7 @@ function mod:Create(window)
 			mod.class_icon_tcoords[class] = {(l+adj),(r-adj),(t+adj),(b-adj)}
 		end
 	end
-    
+
     if not mod.role_icon_tcoords then
         mod.role_icon_tcoords = {
             DAMAGER = {0.3125, 0.63, 0.3125, 0.63},
@@ -99,7 +99,7 @@ function mod:Create(window)
             NONE    = ""
         }
     end
-    
+
 end
 
 -- Called by Skada windows when the window is to be destroyed/cleared.
@@ -144,8 +144,8 @@ end
 
 local function BarClickIgnore(bar, button)
 	local win = bar.win
-	if button == "RightButton" then 
-		win:RightClick() 
+	if button == "RightButton" then
+		win:RightClick()
 	end
 end
 
@@ -200,8 +200,8 @@ local function BarIconEnter(icon)
 	local bar = icon.bar
 	local win = bar.win
 	if bar.link and win and win.bargroup then
-		Skada:SetTooltipPosition(GameTooltip, win.bargroup); 
-		GameTooltip:SetHyperlink(bar.link); 
+		Skada:SetTooltipPosition(GameTooltip, win.bargroup);
+		GameTooltip:SetHyperlink(bar.link);
 		GameTooltip:Show();
 	end
 end
@@ -342,7 +342,7 @@ function mod:Update(win)
 				else
 					bar.missingclass = nil
 				end
-                
+
 				if data.role and data.role ~= "NONE" and win.db.roleicons then
 					bar:ShowIcon()
                     --bar:SetIconWithCoord("Interface\\LFGFrame\\UI-LFG-ICON-ROLES", GetTexCoordsForRole(data.role))
@@ -351,45 +351,44 @@ function mod:Update(win)
 					bar:ShowIcon()
 					bar:SetIconWithCoord("Interface\\Glues\\CharacterCreate\\UI-CharacterCreate-Classes", mod.class_icon_tcoords[data.class])
 				end
-                    
-				if data.color then
-					-- Explicit color from dataset.
-					bar:SetColorAt(0, data.color.r, data.color.g, data.color.b, data.color.a or 1)
-                elseif data.spellschool and win.db.spellschoolcolors then
-                    local colorfunc = _G.CombatLog_Color_ColorArrayBySchool
-                    if colorfunc then
-                       local color = colorfunc(data.spellschool)
-					   bar:SetColorAt(0, color.r, color.g, color.b, color.a or 1)
-                    end
-				elseif data.class and win.db.classcolorbars then
-					-- Class color.
-					local color = Skada.classcolors[data.class]
-					if color then
-						bar:SetColorAt(0, color.r, color.g, color.b, color.a or 1)
-					end
-				else
-					-- Default color.
-					local color = win.db.barcolor
-					bar:SetColorAt(0, color.r, color.g, color.b, color.a or 1)
-				end
-
-				if data.class and win.db.classcolortext then
-					-- Class color text.
-					local color = Skada.classcolors[data.class]
-					if color then
-						bar.label:SetTextColor(color.r, color.g, color.b, color.a or 1)
-						bar.timerLabel:SetTextColor(color.r, color.g, color.b, color.a or 1)
-					end
-				else
-					-- Default color text.
-					bar.label:SetTextColor(1,1,1,1)
-					bar.timerLabel:SetTextColor(1,1,1,1)
-				end
-                
                 if Skada.db.profile.showself and data.id and data.id == UnitGUID("player") then
                     -- Always show self
                     bar.fixed = true
                 end
+			end
+
+			if data.color then
+				-- Explicit color from dataset.
+				bar:SetColorAt(0, data.color.r, data.color.g, data.color.b, data.color.a or 1)
+			elseif data.spellschool and win.db.spellschoolcolors then
+				local colorfunc = _G.CombatLog_Color_ColorArrayBySchool
+				if colorfunc then
+				   local color = colorfunc(data.spellschool)
+				   bar:SetColorAt(0, color.r, color.g, color.b, color.a or 1)
+				end
+			elseif data.class and win.db.classcolorbars then
+				-- Class color.
+				local color = Skada.classcolors[data.class]
+				if color then
+					bar:SetColorAt(0, color.r, color.g, color.b, win.db.classcolorbarsalpha or 1)
+				end
+			else
+				-- Default color.
+				local color = win.db.barcolor
+				bar:SetColorAt(0, color.r, color.g, color.b, color.a or 1)
+			end
+
+			if data.class and win.db.classcolortext then
+				-- Class color text.
+				local color = Skada.classcolors[data.class]
+				if color then
+					bar.label:SetTextColor(color.r, color.g, color.b, color.a or 1)
+					bar.timerLabel:SetTextColor(color.r, color.g, color.b, color.a or 1)
+				end
+			else
+				-- Default color text.
+				bar.label:SetTextColor(1,1,1,1)
+				bar.timerLabel:SetTextColor(1,1,1,1)
 			end
 
             if win.metadata.ordersort then
@@ -556,7 +555,7 @@ function mod:ApplySettings(win)
 	end
 
     if p.strata then g:SetFrameStrata(p.strata) end
-    
+
 	-- Header
 	local fo = CreateFont("TitleFont"..win.db.name)
 	fo:SetFont(p.title.fontpath or media:Fetch('font', p.title.font), p.title.fontsize, p.title.fontflags)
@@ -575,7 +574,7 @@ function mod:ApplySettings(win)
 	g.button:SetHeight(p.title.height or 15)
 
     Skada:ApplyBorder(g.button, p.title.bordertexture, p.title.bordercolor, p.title.borderthickness)
-    
+
 	if p.enabletitle then
 		g:ShowAnchor()
 	else
@@ -597,12 +596,12 @@ function mod:ApplySettings(win)
     local padtop = (p.enabletitle and not p.reversegrowth and p.title.height)
     local padbottom = (p.enabletitle and p.reversegrowth and p.title.height)
     Skada:ApplyBorder(g, p.background.bordertexture, p.background.bordercolor, p.background.borderthickness, padtop, padbottom)
-    
+
 	windowbackdrop.bgFile = p.background.texturepath or media:Fetch("background", p.background.texture)
 	windowbackdrop.tile = false
 	windowbackdrop.tileSize = 0
 	g:SetBackdrop(windowbackdrop)
-    
+
 	local color = p.background.color
 	g:SetBackdropColor(color.r, color.g, color.b, color.a or 1)
 
@@ -611,7 +610,7 @@ function mod:ApplySettings(win)
 
 	-- Scale
 	g:SetScale(p.scale)
-    
+
     -- Smoothing
     g:SetSmoothing(p.smoothing)
 
@@ -744,56 +743,6 @@ function mod:AddDisplayOptions(win, options)
 			        	end,
 			},
 
-			color = {
-				type="color",
-				name=L["Bar color"],
-				desc=L["Choose the default color of the bars."],
-				hasAlpha=true,
-				get=function(i)
-						local c = db.barcolor
-						return c.r, c.g, c.b, c.a
-					end,
-				set=function(i, r,g,b,a)
-						db.barcolor = {["r"] = r, ["g"] = g, ["b"] = b, ["a"] = a}
-						Skada:ApplySettings()
-					end,
-				order=21,
-			},
-
-			bgcolor = {
-				type="color",
-				name=L["Background color"],
-				desc=L["Choose the background color of the bars."],
-				hasAlpha=true,
-				get=function(i) return db.barbgcolor.r, db.barbgcolor.g, db.barbgcolor.b, db.barbgcolor.a end,
-				set=function(i, r,g,b,a) db.barbgcolor = {["r"] = r, ["g"] = g, ["b"] = b, ["a"] = a}; Skada:ApplySettings() end,
-				order=22,
-			},
-
-			classcolorbars = {
-			        type="toggle",
-			        name=L["Class color bars"],
-			        desc=L["When possible, bars will be colored according to player class."],
-			        order=30,
-			        get=function() return db.classcolorbars end,
-			        set=function()
-			        		db.classcolorbars = not db.classcolorbars
-		         			Skada:ApplySettings()
-			        	end,
-			},
-
-			classcolortext = {
-			        type="toggle",
-			        name=L["Class color text"],
-			        desc=L["When possible, bar text will be colored according to player class."],
-			        order=31,
-			        get=function() return db.classcolortext end,
-			        set=function()
-			        		db.classcolortext = not db.classcolortext
-		         			Skada:ApplySettings()
-			        	end,
-			},
-
 			classicons = {
 			        type="toggle",
 			        name=L["Class icons"],
@@ -817,19 +766,7 @@ function mod:AddDisplayOptions(win, options)
 		         			Skada:ApplySettings()
 			        	end,
 			},
-            
-			spellschoolcolors = {
-			        type="toggle",
-			        name=L["Spell school colors"],
-			        desc=L["Use spell school colors where applicable."],
-			        order=33,
-			        get=function() return db.spellschoolcolors end,
-			        set=function()
-			        		db.spellschoolcolors = not db.spellschoolcolors
-		         			Skada:ApplySettings()
-			        	end,
-			},
-                
+
 			clickthrough = {
 			        type="toggle",
 			        name=L["Clickthrough"],
@@ -841,7 +778,7 @@ function mod:AddDisplayOptions(win, options)
 		         			Skada:ApplySettings()
 			        	end,
 			},
-            
+
 			smoothing = {
 			        type="toggle",
 			        name=L["Smooth bars"],
@@ -853,7 +790,88 @@ function mod:AddDisplayOptions(win, options)
 		         			Skada:ApplySettings()
 			        	end,
 			},
+			colors = {
+				type = "group",
+				name = L["Color options"],
+				order=35,
+				inline=true,
+				args = {
+					spellschoolcolors = {
+						type="toggle",
+						name=L["Spell school colors"],
+						desc=L["Use spell school colors where applicable."],
+						order=33,
+						get=function() return db.spellschoolcolors end,
+						set=function()
+								db.spellschoolcolors = not db.spellschoolcolors
+								 Skada:ApplySettings()
+							end,
+					},
+					color = {
+						type="color",
+						name=L["Bar color"],
+						desc=L["Choose the default color of the bars."],
+						hasAlpha=true,
+						get=function(i)
+								local c = db.barcolor
+								return c.r, c.g, c.b, c.a
+							end,
+						set=function(i, r,g,b,a)
+								db.barcolor = {["r"] = r, ["g"] = g, ["b"] = b, ["a"] = a}
+								Skada:ApplySettings()
+							end,
+						order=21,
+					},
 
+					bgcolor = {
+						type="color",
+						name=L["Background color"],
+						desc=L["Choose the background color of the bars."],
+						hasAlpha=true,
+						get=function(i) return db.barbgcolor.r, db.barbgcolor.g, db.barbgcolor.b, db.barbgcolor.a end,
+						set=function(i, r,g,b,a) db.barbgcolor = {["r"] = r, ["g"] = g, ["b"] = b, ["a"] = a}; Skada:ApplySettings() end,
+						order=22,
+					},
+
+					classcolorbars = {
+							type="toggle",
+							name=L["Class color bars"],
+							desc=L["When possible, bars will be colored according to player class."],
+							order=30,
+							get=function() return db.classcolorbars end,
+							set=function()
+									db.classcolorbars = not db.classcolorbars
+									Skada:ApplySettings()
+								end,
+					},
+
+					classcolortext = {
+							type="toggle",
+							name=L["Class color text"],
+							desc=L["When possible, bar text will be colored according to player class."],
+							order=31,
+							get=function() return db.classcolortext end,
+							set=function()
+									db.classcolortext = not db.classcolortext
+									Skada:ApplySettings()
+								end,
+					},
+					classcolorbarsalpha = {
+						type="range",
+						name=L["Class color bars alpha"],
+						desc=L["The opacity of the bars if Class Color Bars is enabled."],
+						min=0,
+						max=1,
+						step=0.01,
+						get=function() return db.classcolorbarsalpha end,
+						set=function(win, alpha)
+									db.classcolorbarsalpha = alpha
+									Skada:ApplySettings()
+								end,
+						order=32,
+					},
+				}
+			}
 		}
 	}
 
@@ -959,7 +977,7 @@ function mod:AddDisplayOptions(win, options)
 					end,
 				order=4.1,
 			},
-            
+
 			texture = {
 		         type = 'select',
 		         dialogControl = 'LSM30_Statusbar',
@@ -973,7 +991,7 @@ function mod:AddDisplayOptions(win, options)
 						end,
 				order=5,
 		    },
-                
+
 			color = {
 				type="color",
 				name=L["Background color"],
@@ -989,7 +1007,7 @@ function mod:AddDisplayOptions(win, options)
 					end,
 				order=5.1,
 			},
-                
+
 		    bordertexture = {
 		         type = 'select',
 		         dialogControl = 'LSM30_Border',
@@ -1004,7 +1022,7 @@ function mod:AddDisplayOptions(win, options)
 				order=6,
 		    },
 
-                
+
 			bordercolor = {
 				type="color",
 				name=L["Border color"],
@@ -1020,7 +1038,7 @@ function mod:AddDisplayOptions(win, options)
 					end,
 				order=6.1,
 			},
-                
+
 			thickness = {
 				type="range",
 				name=L["Border thickness"],

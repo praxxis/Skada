@@ -501,7 +501,7 @@ function Window:set_mode_title()
 	self.display:SetTitle(self, name)
 end
 
-function sort_modes()
+local function sort_modes()
 	table_sort(modes,
         function(a, b)
             if Skada.db.profile.sortmodesbyusage and Skada.db.profile.modeclicks then

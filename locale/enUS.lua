@@ -518,3 +518,7 @@ L["List of damaging spells"] = true
 L["spells"] = true
 L["targets"] = true
 L["Shows damage done on players by friendly players."] = true
+
+L["Color options"] = true
+L["Class color bars alpha"] = true
+L["The opacity of the bars if Class Color Bars is enabled."] = true
