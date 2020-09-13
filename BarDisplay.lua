@@ -241,6 +241,105 @@ function mod:SetTitle(win, title)
 	win.bargroup.button:SetText(title)
 end
 
+-- Initialization of bars.
+function mod:InitBar(win, data)
+	local barid = data.id
+	local barlabel = data.label
+
+	local bar = mod:CreateBar(win, barid, barlabel, data.value, win.metadata.maxvalue or 1, data.icon, false)
+	bar.id = barid
+	bar.text = barlabel
+	bar.fixed = false
+	if not data.ignore then
+
+		if data.icon then
+			bar:ShowIcon()
+
+			bar.link = nil
+			if data.spellid then
+				local spell = data.spellid
+				bar.link = GetSpellLink(spell)
+			elseif data.hyperlink then
+				bar.link = data.hyperlink
+			end
+			if bar.link then
+				bar.iconFrame.bar = bar
+				bar.iconFrame:EnableMouse(true)
+				bar.iconFrame:SetScript("OnEnter", BarIconEnter)
+				bar.iconFrame:SetScript("OnLeave", HideGameTooltip)
+				bar.iconFrame:SetScript("OnMouseDown", BarIconMouseDown)
+			end
+		end
+
+		bar:EnableMouse(true)
+		bar:SetScript("OnEnter", BarEnter)
+		bar:SetScript("OnLeave", BarLeave)
+		bar:SetScript("OnMouseDown", BarClick)
+	else
+		bar:SetScript("OnEnter", nil)
+		bar:SetScript("OnLeave", nil)
+		bar:SetScript("OnMouseDown", BarClickIgnore)
+	end
+	bar:SetValue(data.value)
+
+	if not data.class and
+	   (win.db.classicons or win.db.classcolorbars or win.db.classcolortext) then
+		bar.missingclass = true
+	else
+		bar.missingclass = nil
+	end
+
+	if data.role and data.role ~= "NONE" and win.db.roleicons then
+		bar:ShowIcon()
+		--bar:SetIconWithCoord("Interface\\LFGFrame\\UI-LFG-ICON-ROLES", GetTexCoordsForRole(data.role))
+		bar:SetIconWithCoord("Interface\\LFGFrame\\UI-LFG-ICON-PORTRAITROLES", mod.role_icon_tcoords[data.role])
+	elseif data.class and win.db.classicons and mod.class_icon_tcoords[data.class] then
+		bar:ShowIcon()
+		bar:SetIconWithCoord("Interface\\Glues\\CharacterCreate\\UI-CharacterCreate-Classes", mod.class_icon_tcoords[data.class])
+	end
+
+	if data.color then
+		-- Explicit color from dataset.
+		bar:SetColorAt(0, data.color.r, data.color.g, data.color.b, data.color.a or 1)
+	elseif data.spellschool and win.db.spellschoolcolors then
+		local colorfunc = _G.CombatLog_Color_ColorArrayBySchool
+		if colorfunc then
+		   local color = colorfunc(data.spellschool)
+		   bar:SetColorAt(0, color.r, color.g, color.b, color.a or 1)
+		end
+	elseif data.class and win.db.classcolorbars then
+		-- Class color.
+		local color = Skada.classcolors[data.class]
+		if color then
+			bar:SetColorAt(0, color.r, color.g, color.b, win.db.classcolorbarsalpha or 1)
+		end
+	else
+		-- Default color.
+		local color = win.db.barcolor
+		bar:SetColorAt(0, color.r, color.g, color.b, color.a or 1)
+	end
+
+	if data.class and win.db.classcolortext then
+		-- Class color text.
+		local color = Skada.classcolors[data.class]
+		if color then
+			bar.label:SetTextColor(color.r, color.g, color.b, color.a or 1)
+			bar.timerLabel:SetTextColor(color.r, color.g, color.b, color.a or 1)
+		end
+	else
+		-- Default color text.
+		bar.label:SetTextColor(1,1,1,1)
+		bar.timerLabel:SetTextColor(1,1,1,1)
+	end
+
+	if Skada.db.profile.showself and data.id and data.id == UnitGUID("player") then
+		-- Always show self
+		bar.fixed = true
+	end
+
+	return bar
+end
+
 -- Called by Skada windows when the display should be updated to match the dataset.
 function mod:Update(win)
 	-- Some modes may alter title continously.
@@ -299,97 +398,9 @@ function mod:Update(win)
 				bar:SetValue(data.value)
 				bar:SetMaxValue(win.metadata.maxvalue or 1) -- MUST come after SetValue
 			else
-				-- Initialization of bars.
-				bar = mod:CreateBar(win, barid, barlabel, data.value, win.metadata.maxvalue or 1, data.icon, false)
-				bar.id = barid
-				bar.text = barlabel
-                bar.fixed = false
-				if not data.ignore then
-
-					if data.icon then
-						bar:ShowIcon()
-
-						bar.link = nil
-						if data.spellid then
-							local spell = data.spellid
-							bar.link = GetSpellLink(spell)
-						elseif data.hyperlink then
-							bar.link = data.hyperlink
-						end
-						if bar.link then
-							bar.iconFrame.bar = bar
-							bar.iconFrame:EnableMouse(true)
-							bar.iconFrame:SetScript("OnEnter", BarIconEnter)
-							bar.iconFrame:SetScript("OnLeave", HideGameTooltip)
-							bar.iconFrame:SetScript("OnMouseDown", BarIconMouseDown)
-						end
-					end
-
-					bar:EnableMouse(true)
-					bar:SetScript("OnEnter", BarEnter)
-					bar:SetScript("OnLeave", BarLeave)
-					bar:SetScript("OnMouseDown", BarClick)
-				else
-					bar:SetScript("OnEnter", nil)
-					bar:SetScript("OnLeave", nil)
-					bar:SetScript("OnMouseDown", BarClickIgnore)
-				end
-				bar:SetValue(data.value)
-
-				if not data.class and
-				   (win.db.classicons or win.db.classcolorbars or win.db.classcolortext) then
-					bar.missingclass = true
-				else
-					bar.missingclass = nil
-				end
-
-				if data.role and data.role ~= "NONE" and win.db.roleicons then
-					bar:ShowIcon()
-                    --bar:SetIconWithCoord("Interface\\LFGFrame\\UI-LFG-ICON-ROLES", GetTexCoordsForRole(data.role))
-                    bar:SetIconWithCoord("Interface\\LFGFrame\\UI-LFG-ICON-PORTRAITROLES", mod.role_icon_tcoords[data.role])
-                elseif data.class and win.db.classicons and mod.class_icon_tcoords[data.class] then
-					bar:ShowIcon()
-					bar:SetIconWithCoord("Interface\\Glues\\CharacterCreate\\UI-CharacterCreate-Classes", mod.class_icon_tcoords[data.class])
-				end
-                if Skada.db.profile.showself and data.id and data.id == UnitGUID("player") then
-                    -- Always show self
-                    bar.fixed = true
-                end
+				bar = self:InitBar(win, data)
 			end
 
-			if data.color then
-				-- Explicit color from dataset.
-				bar:SetColorAt(0, data.color.r, data.color.g, data.color.b, data.color.a or 1)
-			elseif data.spellschool and win.db.spellschoolcolors then
-				local colorfunc = _G.CombatLog_Color_ColorArrayBySchool
-				if colorfunc then
-				   local color = colorfunc(data.spellschool)
-				   bar:SetColorAt(0, color.r, color.g, color.b, color.a or 1)
-				end
-			elseif data.class and win.db.classcolorbars then
-				-- Class color.
-				local color = Skada.classcolors[data.class]
-				if color then
-					bar:SetColorAt(0, color.r, color.g, color.b, win.db.classcolorbarsalpha or 1)
-				end
-			else
-				-- Default color.
-				local color = win.db.barcolor
-				bar:SetColorAt(0, color.r, color.g, color.b, color.a or 1)
-			end
-
-			if data.class and win.db.classcolortext then
-				-- Class color text.
-				local color = Skada.classcolors[data.class]
-				if color then
-					bar.label:SetTextColor(color.r, color.g, color.b, color.a or 1)
-					bar.timerLabel:SetTextColor(color.r, color.g, color.b, color.a or 1)
-				end
-			else
-				-- Default color text.
-				bar.label:SetTextColor(1,1,1,1)
-				bar.timerLabel:SetTextColor(1,1,1,1)
-			end
 
             if win.metadata.ordersort then
 				bar.order = i
@@ -397,12 +408,12 @@ function mod:Update(win)
 
 			if win.metadata.showspots and Skada.db.profile.showranks and not data.ignore then
                 if win.db.barorientation == 1 then
-                    bar:SetLabel(("%2u. %s"):format(nr, data.label))
+                    bar:SetLabel(("%2u. %s"):format(nr, barlabel))
                 else
-                    bar:SetLabel(("%s %2u"):format(data.label, nr))
+                    bar:SetLabel(("%s %2u"):format(barlabel, nr))
                 end
 			else
-				bar:SetLabel(data.label)
+				bar:SetLabel(barlabel)
 			end
 			bar:SetTimerLabel(data.valuetext)
 
