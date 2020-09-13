@@ -2147,11 +2147,7 @@ end
 function Skada:FormatNumber(number)
 	if number then
 		if self.db.profile.numberformat == 1 then
-			if number > 1000000000 then
-				return ("%02.3fB"):format(number / 1000000000)
-			elseif number > 1000000 then
-				return ("%02.2fM"):format(number / 1000000)
-			elseif number > 9999 then
+			if number > 999 then
 				return ("%02.1fK"):format(number / 1000)
 			end
 		end
