@@ -307,7 +307,7 @@ end
 ---[[ Bar Groups ]]---
 function barListPrototype:AddButton(title, description, normaltex, highlighttex, clickfunc)
 	-- Create button frame.
-	local btn = CreateFrame("Button", nil, self.button)
+	local btn = CreateFrame("Button", nil, self.button, BackdropTemplateMixin and "BackdropTemplate" or nil)
 	btn.title = title
 	btn:SetFrameLevel(5)
 	btn:ClearAllPoints()
@@ -336,14 +336,14 @@ end
 
 function barListPrototype:SetSmoothing(smoothing)
     self.smoothing = smoothing
-    
+
     if smoothing then
         self:SetScript("OnUpdate", function()
-        
+
             if bars[self] then
                 for k, v in pairs(bars[self]) do
                     if v.targetamount and v:IsShown() then
-                        
+
                         local amt
                         if v.targetamount > v.lastamount then
                             amt = min(((v.targetamount - v.lastamount) / 10) + v.lastamount, v.targetamount)
@@ -355,13 +355,13 @@ function barListPrototype:SetSmoothing(smoothing)
                             v.targetamount = nil
                         end
                         v:SetTextureValue(amt, v.targetdist)
-                        
+
                     end
                 end
             end
 
         end)
-        
+
     else
         self:SetScript("OnUpdate", nil)
     end
@@ -450,7 +450,7 @@ do
 		orientation = orientation == "LEFT" and lib.LEFT_TO_RIGHT or orientation
 		orientation = orientation == "RIGHT" and lib.RIGHT_TO_LEFT or orientation
 
-		local list = setmetatable(CreateFrame("Frame", frameName, UIParent), barListPrototype_mt)
+		local list = setmetatable(CreateFrame("Frame", frameName, UIParent, BackdropTemplateMixin and "BackdropTemplate" or nil), barListPrototype_mt)
 		list:SetMovable(true)
 		list:SetClampedToScreen(true)
 		list.enablemouse = true
@@ -472,7 +472,7 @@ do
 		local myfont = CreateFont("MyTitleFont")
 		myfont:CopyFontObject(ChatFontSmall)
 
-		list.button = CreateFrame("Button", nil, list)
+		list.button = CreateFrame("Button", nil, list, BackdropTemplateMixin and "BackdropTemplate" or nil)
 		list.button:SetText(name)
 		list.button:SetBackdrop(frame_defaults)
 		list.button:SetNormalFontObject(myfont)
@@ -954,7 +954,7 @@ do
 		local lastBar = self
 		local ct = 0
         local has_fixed = false
-        
+
 		if not bars[self] then return end
 		for k, v in pairs(bars[self]) do
 			ct = ct + 1
@@ -995,7 +995,7 @@ do
 			stop = min(maxbars + offset, #values)
 			step = 1
 		end
-        
+
         -- Fixed bar replaces the last bar
         if has_fixed and stop < #values then
             for i = stop + 1, #values, 1 do
@@ -1503,7 +1503,7 @@ function barPrototype:SetValue(val)
 	local amt = min(1, val / max(displayMax, 0.000001))
 	local dist = (ownerGroup and ownerGroup:GetLength()) or self.length
     amt = max(amt, 0.000001)
-    
+
     if ownerGroup and ownerGroup.smoothing and self.lastamount then
         self:SetTextureTarget(amt, dist)
     else

@@ -37,7 +37,7 @@ function Skada:GetGroupTypeAndCount()
 end
 
 do
-	popup = CreateFrame("Frame", nil, UIParent) -- Recycle the popup frame as an event handler.
+	popup = CreateFrame("Frame", nil, UIParent, BackdropTemplateMixin and "BackdropTemplate" or nil) -- Recycle the popup frame as an event handler.
 	popup:SetScript("OnEvent", function(frame, event, ...)
 		Skada[event](Skada, ...)
 	end)
@@ -2545,11 +2545,17 @@ end
 
 -- Generic border
 function Skada:ApplyBorder(frame, texture, color, thickness, padtop, padbottom, padleft, padright)
+	if not frame.SetBackdrop then
+        Mixin(frame, BackdropTemplateMixin)
+    end
 	local borderbackdrop = {}
 	if not frame.borderFrame then
 		frame.borderFrame = CreateFrame("Frame", nil, frame)
 		frame.borderFrame:SetFrameLevel(0)
 	end
+	if not frame.borderFrame.SetBackdrop then
+        Mixin(frame.borderFrame, BackdropTemplateMixin)
+    end
 	frame.borderFrame:SetPoint("TOPLEFT", frame, -thickness - (padleft or 0), thickness + (padtop or 0))
 	frame.borderFrame:SetPoint("BOTTOMRIGHT", frame, thickness + (padright or 0), -thickness - (padbottom or 0))
 	if texture and thickness > 0 then
@@ -2836,7 +2842,7 @@ do
         fs:SetJustifyV("TOP")
         fs:SetText("Skada")
 
-        local button = CreateFrame("Button", nil, panel, "UIPanelButtonTemplate")
+        local button = CreateFrame("Button", nil, panel, "UIPanelButtonTemplate", BackdropTemplateMixin and "BackdropTemplate" or nil)
         button:SetText(L['Configure'])
         button:SetWidth(128)
         button:SetPoint("TOPLEFT", 10, -48)
