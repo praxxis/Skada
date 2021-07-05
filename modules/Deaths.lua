@@ -7,6 +7,7 @@ Skada:AddLoadableModule("Deaths", nil, function(Skada, L)
 	local SORtime = {}
 
 	local death_spell = 41220 -- Death
+	local attack_spell = 6603
 
 	local function log_deathlog(set, playerid, playername, srcname, spellid, spellname, amount, absorb, timestamp, logoverride, healthoverride)
 		local player = Skada:get_player(set, playerid, playername)
@@ -258,7 +259,7 @@ Skada:AddLoadableModule("Deaths", nil, function(Skada, L)
 				d.id = player.id
 				d.value = #player.deaths
 				if spellid then
-					d.label = player.name .. ": " .. (spellname or GetSpellInfo(spellid))
+					d.label = player.name .. ": " .. (spellname or GetSpellInfo(spellid) or GetSpellInfo(attack_spell))
 				else
 					d.label = player.name
 				end
@@ -314,8 +315,8 @@ Skada:AddLoadableModule("Deaths", nil, function(Skada, L)
 						win.dataset[nr] = d
 
 						d.id = nr
-						local spellid = log.spellid or 88163 -- "Attack" spell
-						local spellname = log.spellname or GetSpellInfo(spellid)
+						local spellid = log.spellid or attack_spell
+						local spellname = log.spellname or GetSpellInfo(spellid) or GetSpellInfo(attack_spell)
 						local rspellname
 						if spellid == death_spell then
 							rspellname = spellname -- nicely formatted death message
